@@ -1,0 +1,89 @@
+<head>
+  <style>
+    .bg-1 {
+      background-color: #1abc9c;
+      color: #ffffff;
+    }
+    .borderless {
+      border:none;
+    }
+  </style>
+  </head>
+
+
+
+<p id="notice"><%= notice %></p>
+<a href="/courses/<%= @lecture.course.id %>" >Back</a>
+<div class="container">
+<div class="bg-1">
+
+
+    <h1 align="center">Course Name:  <%= @lecture.course.title %></h1>
+
+    <div class="text-align:center;" align="center">
+      <%= link_to like_lecture_path(@lecture), class:"like" , method: :put do %>
+          <button type="button" clas="btn btn-info" aria-label="Left Align">
+
+            <span class="glyphicon glyphicon-thumbs-up glyphicon-align-center " aria-hidden="true"> </span>
+            <span class="bage"><%= @lecture.get_upvotes.size %></span>
+          </button>
+
+      <% end  %>
+
+
+      <%= link_to unlike_lecture_path(@lecture), class:"like" , method: :put do %>
+          <button type="button" clas="btn btn-info" aria-label="Left Align">
+
+            <span class="glyphicon glyphicon-thumbs-down glyphicon-align-center " aria-hidden="true"> </span>
+            <span class="bage"><%= @lecture.get_downvotes.size %></span>
+          </button>
+
+      <% end  %>
+
+    </div>
+
+    <table class="table" border="none">
+
+      <tbody>
+      <tr>
+        <td><h3>By: <%= @lecture.user.name %></h3><br><h3><%= @lecture.title %></h3></td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td><h3><%= raw @lecture.content %></h3></td>
+        <td><h5><a href="<%= @lecture.attach_url %>" download>Download Attachment</a></h5></td>
+      </tr>
+      </tbody>
+      </table>
+<div align="center">
+  <% if (current_user.id ==  @lecture.user_id)&&(current_user.role == "instractor") %>
+
+<%= link_to 'Edit', edit_lecture_path(@lecture) ,class:"btn btn-default" ,style:"text-decoration: none"%>
+      <% end %>
+</div>
+
+  </div>
+
+
+
+    <h4> the comments </h4>
+
+    <div id="comments">
+      <%= render :partial => @lecture.comments %>
+    </div>
+
+    <%= simple_form_for [@lecture ,Comment.new] do |f| %>
+
+        <p>
+          <%= f.input :content , :lable => "NEW COMMENT" , as: :text , input_html: { row:"3" } %>
+        </p>
+
+        <div class="btn">
+          <%= f.submit "Add Comment " , class:'btn btn-primary'  %>
+        </div>
+
+    <% end %>
+
+</div>
+
+

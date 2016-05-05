@@ -1,0 +1,38 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Lectures</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Attach</th>
+      <th>Content</th>
+      <th>User</th>
+      <th>Course</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @lectures.each do |lecture| %>
+      <tr>
+        <td><%= lecture.title %></td>
+        <td><a href="<%= lecture.attach_url %>" download>Download Attachment</a></td>
+        <td><%= raw lecture.content %></td>
+        <td><%= lecture.user.name %></td>
+        <td><%= lecture.course.title %></td>
+        <td><%= link_to 'Show', lecture %></td>
+
+        <% if current_user.id == lecture.user_id %>
+            <td><%= link_to 'Edit', edit_lecture_path(lecture) %></td>
+            <td><%= link_to 'Destroy', lecture, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Lecture', new_lecture_path %>

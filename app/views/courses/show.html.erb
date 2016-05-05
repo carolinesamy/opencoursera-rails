@@ -1,0 +1,39 @@
+<head>
+  <style>
+    .bg-1 {
+      background-color: #1abc9c;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<%= link_to 'Back', courses_path %>
+
+<p id="notice"><%= notice %></p>
+
+<div class="bg-1">
+  <div class="container text-center">
+    <h1><%= @course.title %></h1>
+    <image src="<%= @course.image %>"class="img-responsive img-thumbnail" width="650" height="350"></image>
+    <h3>By:  <%= @course.user.name %></h3>
+    <p> <%= raw @course.desc %></p>
+    <% if (current_user.id ==  @course.user_id)&&(current_user.role == "instractor") %>
+        <%= link_to 'Edit', edit_course_path(@course) ,class:"btn btn-default" ,style:"text-decoration: none"%>
+        <%= link_to 'New Lecture', new_lecture_path ,class:"btn btn-default" ,style:"text-decoration: none"%>
+
+  <% end %>
+  </div>
+</div>
+
+
+
+<div class="list-group">
+  <a class="list-group-item disabled">Lectures:</a>
+  <% @course.lectures.each do |lecture|%>
+      <%= link_to  lecture.title ,lecture ,class: "list-group-item"%>
+
+  <% end %>
+</div>
+
+
+
+|
